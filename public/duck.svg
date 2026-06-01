@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+  <defs>
+    <radialGradient id="bg" cx="40%" cy="35%" r="60%">
+      <stop offset="0%" stop-color="#FFE566"/>
+      <stop offset="55%" stop-color="#FFC000"/>
+      <stop offset="100%" stop-color="#D88000"/>
+    </radialGradient>
+    <radialGradient id="hg" cx="38%" cy="32%" r="55%">
+      <stop offset="0%" stop-color="#FFE566"/>
+      <stop offset="50%" stop-color="#FFC000"/>
+      <stop offset="100%" stop-color="#CC7800"/>
+    </radialGradient>
+    <radialGradient id="bk" cx="25%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="#FF7043"/>
+      <stop offset="100%" stop-color="#BF360C"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Body -->
+  <ellipse cx="65" cy="80" rx="44" ry="30" fill="url(#bg)"/>
+
+  <!-- Tail -->
+  <ellipse cx="101" cy="68" rx="12" ry="8" fill="#FFA000" transform="rotate(-25 101 68)"/>
+
+  <!-- Neck connection -->
+  <ellipse cx="44" cy="62" rx="16" ry="20" fill="url(#hg)"/>
+
+  <!-- Head -->
+  <circle cx="44" cy="42" r="22" fill="url(#hg)"/>
+
+  <!-- Beak (upper) -->
+  <path d="M28,44 Q12,39 10,45 Q12,50 28,49 Z" fill="url(#bk)"/>
+  <!-- Beak (lower) -->
+  <path d="M28,49 Q12,50 11,55 Q14,58 28,54 Z" fill="#BF360C"/>
+  <!-- Beak line -->
+  <path d="M17,45 Q12,44 10,47" stroke="#FF8A65" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+
+  <!-- Eye white -->
+  <circle cx="35" cy="35" r="9" fill="white"/>
+  <!-- Pupil -->
+  <circle cx="34" cy="35" r="6" fill="#111"/>
+  <!-- Shine -->
+  <circle cx="31" cy="32" r="2.5" fill="white"/>
+
+  <!-- Body highlight -->
+  <ellipse cx="48" cy="68" rx="20" ry="10" fill="white" opacity="0.18" transform="rotate(-8 48 68)"/>
+
+  <!-- Wing -->
+  <path d="M68,74 Q85,65 96,73 Q85,82 68,79 Z" fill="#CC8800" opacity="0.55"/>
+</svg>
