@@ -31,7 +31,7 @@ export function MonthlyWinChart({ games }: Props) {
           labels: data.map((d) => d.month),
           datasets: ALL_PLAYERS.map((p, i) => ({
             label: p,
-            data: data.map((d) => (d as Record<string, number>)[p] ?? 0),
+            data: data.map((d) => (d as unknown as Record<string, number>)[p] ?? 0),
             backgroundColor: COLORS[i],
             borderRadius: 4,
           })),

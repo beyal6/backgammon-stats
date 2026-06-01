@@ -36,7 +36,7 @@ export function CumulativeChart({ games }: Props) {
           labels: rows.map((d) => d.date),
           datasets: ALL_PLAYERS.map((p, i) => ({
             label: p,
-            data: rows.map((d) => (d as Record<string, number>)[p]),
+            data: rows.map((d) => (d as unknown as Record<string, number>)[p]),
             borderColor: COLORS[i],
             backgroundColor: COLORS[i] + '1a',
             fill: false,
