@@ -6,14 +6,6 @@ import { POINT_LABELS } from '../types'
 
 interface Props { games: Game[] }
 
-function GamePill({ game }: { game: Game }) {
-  return (
-    <div className="text-xs bg-indigo-600/20 rounded px-1.5 py-0.5 text-indigo-300">
-      {game.winner[0]} +{game.points}
-    </div>
-  )
-}
-
 export function CalendarView({ games }: Props) {
   const [current, setCurrent] = useState(new Date())
   const [selected, setSelected] = useState<string | null>(null)

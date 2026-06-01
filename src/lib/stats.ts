@@ -1,14 +1,11 @@
 import {
-  startOfDay,
   subDays,
-  subMonths,
   subYears,
   parseISO,
   format,
   startOfMonth,
   endOfMonth,
   eachDayOfInterval,
-  isWithinInterval,
 } from 'date-fns'
 import type { Game, FilterState, StatsResult, Player, Points } from '../types'
 
