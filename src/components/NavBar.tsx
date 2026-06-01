@@ -1,4 +1,4 @@
-type Tab = 'dashboard' | 'add' | 'calendar' | 'history' | 'settings'
+type Tab = 'dashboard' | 'add' | 'h2h' | 'calendar' | 'history' | 'settings'
 
 interface Props {
   active: Tab
@@ -8,10 +8,11 @@ interface Props {
 
 const TABS: { id: Tab; label: string; icon: string }[] = [
   { id: 'dashboard', label: 'סטטס', icon: '📊' },
-  { id: 'add', label: 'הוסף', icon: '➕' },
-  { id: 'calendar', label: 'לוח', icon: '📅' },
-  { id: 'history', label: 'היסטוריה', icon: '📋' },
-  { id: 'settings', label: 'כלים', icon: '⚙️' },
+  { id: 'add',       label: 'הוסף',  icon: '➕' },
+  { id: 'h2h',       label: 'מול מול', icon: '⚔️' },
+  { id: 'calendar',  label: 'לוח',   icon: '📅' },
+  { id: 'history',   label: 'היסטוריה', icon: '📋' },
+  { id: 'settings',  label: 'כלים',  icon: '⚙️' },
 ]
 
 export function NavBar({ active, onChange, online }: Props) {
@@ -22,12 +23,12 @@ export function NavBar({ active, onChange, online }: Props) {
           <button
             key={t.id}
             onClick={() => onChange(t.id)}
-            className={`flex-1 flex flex-col items-center gap-0.5 py-2.5 transition-colors ${
+            className={`flex-1 flex flex-col items-center gap-0.5 py-2 transition-colors ${
               active === t.id ? 'text-indigo-400' : 'text-slate-500 hover:text-slate-300'
             }`}
           >
-            <span className="text-xl">{t.icon}</span>
-            <span className="text-[10px] font-medium">{t.label}</span>
+            <span className="text-lg">{t.icon}</span>
+            <span className="text-[9px] font-medium leading-tight">{t.label}</span>
           </button>
         ))}
       </div>
