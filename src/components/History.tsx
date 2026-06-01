@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react'
 import type { Game, Player, Points } from '../types'
-import { POINT_LABELS, ALL_PLAYERS } from '../types'
+import { POINT_LABELS, ALL_PLAYERS, wonVerb } from '../types'
 import { format, parseISO } from 'date-fns'
 import { he } from 'date-fns/locale'
 
@@ -85,8 +85,8 @@ export function History({ games, onDelete }: Props) {
             <div className="flex flex-col gap-0.5 flex-1 min-w-0">
               <div className="flex items-center gap-2">
                 <span className="text-white font-semibold">{g.winner}</span>
-                <span className="text-slate-600 text-xs">vs</span>
-                <span className="text-slate-400 text-sm">{g.loser}</span>
+                <span className="text-slate-600 text-xs">{wonVerb(g.winner as Player)}</span>
+                <span className="text-slate-400 text-sm">את {g.loser}</span>
               </div>
               <span className="text-xs text-slate-500">
                 {format(parseISO(g.created_at), 'dd/MM/yyyy HH:mm', { locale: he })}

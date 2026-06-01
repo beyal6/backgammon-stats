@@ -2,7 +2,7 @@ import { useState, useMemo } from 'react'
 import { format, addMonths, subMonths, startOfMonth, getDay, getDaysInMonth } from 'date-fns'
 import { he } from 'date-fns/locale'
 import type { Game } from '../types'
-import { POINT_LABELS } from '../types'
+import { POINT_LABELS, wonVerb, type Player } from '../types'
 
 interface Props { games: Game[] }
 
@@ -88,7 +88,9 @@ export function CalendarView({ games }: Props) {
           </h3>
           {selectedGames.map((g) => (
             <div key={g.id} className="flex justify-between items-center bg-surface-900 rounded-xl px-3 py-2">
-              <span className="text-white font-medium">{g.winner}</span>
+              <span className="text-white font-medium">
+                {g.winner} <span className="text-slate-400 text-xs font-normal">{wonVerb(g.winner as Player)} את {g.loser}</span>
+              </span>
               <span className="text-xs text-indigo-400 bg-indigo-600/20 rounded-full px-2 py-0.5">
                 {POINT_LABELS[g.points as 1 | 2 | 3 | 4]} ({g.points} נק׳)
               </span>

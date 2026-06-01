@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import type { Player, Points } from '../types'
-import { POINT_LABELS, ALL_PLAYERS } from '../types'
+import { POINT_LABELS, ALL_PLAYERS, wonVerb } from '../types'
 
 interface Props {
   onAdd: (winner: Player, loser: Player, points: Points) => Promise<void>
@@ -102,7 +102,7 @@ export function AddGame({ onAdd }: Props) {
           <div className="bg-indigo-600/10 ring-1 ring-indigo-500/30 rounded-xl p-4 text-center">
             <p className="text-white">
               <span className="font-bold text-indigo-300">{winner}</span>
-              <span className="text-slate-400"> ניצח את </span>
+              <span className="text-slate-400"> {wonVerb(winner)} את </span>
               <span className="font-bold text-rose-300">{loser}</span>
               <span className="text-slate-400"> · {POINT_LABELS[points]} ({points} נק׳)</span>
             </p>

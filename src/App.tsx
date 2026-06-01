@@ -14,7 +14,7 @@ export default function App() {
   const [filter, setFilter] = useState<FilterState>({ range: 'all' })
 
   const pageTitle: Record<Tab, string> = {
-    dashboard: '🎲 השש בש של הברווזים',
+    dashboard: '🎲🦆 השש בש של הברווזים',
     add: 'הוספת משחקון',
     calendar: 'לוח שנה',
     history: 'היסטוריה',
@@ -25,7 +25,7 @@ export default function App() {
     <div className="min-h-screen bg-surface-900" dir="rtl">
       {/* Header */}
       <header className="sticky top-0 z-40 bg-surface-900/95 backdrop-blur border-b border-white/5 px-4 py-3 flex items-center justify-between">
-        <h1 className="text-lg font-bold text-white">{pageTitle[tab]}</h1>
+        <h1 className={`font-bold text-white ${tab === 'dashboard' ? 'text-xl' : 'text-lg'}`}>{pageTitle[tab]}</h1>
         {error && (
           <span className="text-xs text-amber-400 bg-amber-500/10 rounded-full px-2 py-0.5">
             שגיאת חיבור

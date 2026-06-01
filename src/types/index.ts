@@ -2,6 +2,11 @@ export type Player = 'אייל' | 'הינס' | 'עידן' | 'נועה' | 'יוב
 
 export const ALL_PLAYERS: Player[] = ['אייל', 'הינס', 'עידן', 'נועה', 'יובל']
 
+const FEMALE_PLAYERS = new Set<Player>(['הינס', 'נועה', 'יובל'])
+export function wonVerb(player: Player): string {
+  return FEMALE_PLAYERS.has(player) ? 'ניצחה' : 'ניצח'
+}
+
 export type Points = 1 | 2 | 3 | 4
 
 export const POINT_LABELS: Record<Points, string> = {
