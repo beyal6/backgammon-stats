@@ -17,8 +17,8 @@ export default defineConfig({
         background_color: '#0f0e1a',
         display: 'standalone',
         orientation: 'portrait',
-        scope: '/',
-        start_url: '/',
+        scope: '/backgammon-stats/',
+        start_url: '/backgammon-stats/',
         lang: 'he',
         dir: 'rtl',
         icons: [
