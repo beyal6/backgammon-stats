@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
-import type { Game, FilterState, StatsResult } from '../types'
-import { POINT_LABELS } from '../types'
+import type { Game, FilterState } from '../types'
+import { POINT_LABELS, ALL_PLAYERS } from '../types'
 import { StatCard } from './StatCard'
 import { FilterBar } from './FilterBar'
 import { CumulativeChart } from './CumulativeChart'
@@ -24,26 +24,6 @@ function StreakBadge({ label, player, count }: { label: string; player: string; 
   )
 }
 
-function WinTypeRow({ stats }: { stats: StatsResult['ayalon'] }) {
-  const total = stats.wins || 1
-  return (
-    <div className="flex flex-col gap-1">
-      {([1, 2, 3, 4] as const).map((p) => (
-        <div key={p} className="flex items-center gap-2">
-          <span className="text-xs text-slate-400 w-12">{POINT_LABELS[p]}</span>
-          <div className="flex-1 bg-surface-900 rounded-full h-1.5">
-            <div
-              className="bg-indigo-500 h-1.5 rounded-full transition-all"
-              style={{ width: `${(stats.winsByType[p] / total) * 100}%` }}
-            />
-          </div>
-          <span className="text-xs text-slate-300 w-6 text-left">{stats.winsByType[p]}</span>
-        </div>
-      ))}
-    </div>
-  )
-}
-
 export function Dashboard({ games, filter, onFilterChange }: Props) {
   const filtered = useMemo(() => filterGames(games, filter), [games, filter])
   const stats = useMemo(() => calcStats(filtered), [filtered])
@@ -52,19 +32,19 @@ export function Dashboard({ games, filter, onFilterChange }: Props) {
     <div className="flex flex-col gap-5 pb-24">
       <FilterBar filter={filter} onChange={onFilterChange} />
 
-      {/* Point diff banner */}
+      {/* Leader banner */}
       {stats.pointLeader && (
         <div className="bg-indigo-600/20 ring-1 ring-indigo-500/30 rounded-2xl p-4 text-center">
           <span className="text-indigo-300 font-semibold text-lg">
-            יתרון נקודות: {stats.pointLeader} +{stats.pointDiff}
+            מוביל: {stats.pointLeader} · {stats.players[stats.pointLeader].points} נקודות
           </span>
         </div>
       )}
 
       {/* Player cards */}
       <div className="grid grid-cols-1 gap-4">
-        {(['אייל', 'הינס'] as const).map((player) => {
-          const s = player === 'אייל' ? stats.ayalon : stats.hines
+        {ALL_PLAYERS.map((player) => {
+          const s = stats.players[player]
           return (
             <div key={player} className="bg-surface-800 ring-1 ring-white/10 rounded-2xl p-5 flex flex-col gap-4">
               <h2 className="text-xl font-bold text-white">{player}</h2>
@@ -73,7 +53,20 @@ export function Dashboard({ games, filter, onFilterChange }: Props) {
                 <StatCard label="נקודות" value={s.points} color="emerald" />
                 <StatCard label="אחוז הצלחה" value={`${s.winPct}%`} color="amber" />
               </div>
-              <WinTypeRow stats={s} />
+              <div className="flex flex-col gap-1">
+                {([1, 2, 3, 4] as const).map((p) => (
+                  <div key={p} className="flex items-center gap-2">
+                    <span className="text-xs text-slate-400 w-12">{POINT_LABELS[p]}</span>
+                    <div className="flex-1 bg-surface-900 rounded-full h-1.5">
+                      <div
+                        className="bg-indigo-500 h-1.5 rounded-full transition-all"
+                        style={{ width: `${s.wins ? (s.winsByType[p] / s.wins) * 100 : 0}%` }}
+                      />
+                    </div>
+                    <span className="text-xs text-slate-300 w-6 text-left">{s.winsByType[p]}</span>
+                  </div>
+                ))}
+              </div>
             </div>
           )
         })}

@@ -8,6 +8,7 @@ import {
   eachDayOfInterval,
 } from 'date-fns'
 import type { Game, FilterState, StatsResult, Player, Points } from '../types'
+import { ALL_PLAYERS } from '../types'
 
 export function filterGames(games: Game[], filter: FilterState): Game[] {
   const now = new Date()
@@ -50,45 +51,39 @@ export function filterGames(games: Game[], filter: FilterState): Game[] {
   })
 }
 
+function emptyPlayerStats() {
+  return { wins: 0, losses: 0, points: 0, winPct: 0, winsByType: { 1: 0, 2: 0, 3: 0, 4: 0 } as Record<Points, number> }
+}
+
 export function calcStats(games: Game[]): StatsResult {
-  const emptyWins = () => ({ 1: 0, 2: 0, 3: 0, 4: 0 } as Record<Points, number>)
-  const ayalon = { wins: 0, losses: 0, points: 0, winPct: 0, winsByType: emptyWins() }
-  const hines = { wins: 0, losses: 0, points: 0, winPct: 0, winsByType: emptyWins() }
+  const players = Object.fromEntries(ALL_PLAYERS.map((p) => [p, emptyPlayerStats()])) as Record<Player, ReturnType<typeof emptyPlayerStats>>
 
   for (const g of games) {
     const pts = g.points as Points
-    if (g.winner === 'אייל') {
-      ayalon.wins++
-      ayalon.points += pts
-      ayalon.winsByType[pts]++
-      hines.losses++
-    } else {
-      hines.wins++
-      hines.points += pts
-      hines.winsByType[pts]++
-      ayalon.losses++
-    }
+    const w = g.winner as Player
+    const l = g.loser as Player
+    if (players[w]) { players[w].wins++; players[w].points += pts; players[w].winsByType[pts]++ }
+    if (players[l]) { players[l].losses++ }
   }
 
   const total = games.length
-  ayalon.winPct = total ? Math.round((ayalon.wins / total) * 100) : 0
-  hines.winPct = total ? Math.round((hines.wins / total) * 100) : 0
+  for (const p of ALL_PLAYERS) {
+    const s = players[p]
+    const played = s.wins + s.losses
+    s.winPct = played ? Math.round((s.wins / played) * 100) : 0
+  }
 
-  const pointDiff = Math.abs(ayalon.points - hines.points)
-  const pointLeader: Player | null =
-    ayalon.points > hines.points ? 'אייל' : hines.points > ayalon.points ? 'הינס' : null
+  const sorted = [...ALL_PLAYERS].sort((a, b) => players[b].points - players[a].points)
+  const pointLeader: Player | null = players[sorted[0]].points > 0 ? sorted[0] : null
 
   const { currentStreak, bestStreak } = calcStreaks(games)
 
-  return { ayalon, hines, pointDiff, pointLeader, currentStreak, bestStreak, totalGames: total }
+  return { players, pointLeader, currentStreak, bestStreak, totalGames: total }
 }
 
 function calcStreaks(games: Game[]) {
   if (!games.length) {
-    return {
-      currentStreak: null,
-      bestStreak: { player: 'אייל' as Player, count: 0 },
-    }
+    return { currentStreak: null, bestStreak: { player: 'אייל' as Player, count: 0 } }
   }
 
   let current = { player: games[games.length - 1].winner as Player, count: 1 }
@@ -112,35 +107,27 @@ function calcStreaks(games: Game[]) {
 }
 
 export function buildCumulativePoints(games: Game[]) {
-  let ayalonTotal = 0
-  let hinesTotal = 0
+  const totals = Object.fromEntries(ALL_PLAYERS.map((p) => [p, 0])) as Record<Player, number>
   return games.map((g) => {
-    const pts = g.points as Points
-    if (g.winner === 'אייל') ayalonTotal += pts
-    else hinesTotal += pts
-    return {
-      date: format(parseISO(g.created_at), 'dd/MM'),
-      ayalon: ayalonTotal,
-      hines: hinesTotal,
-    }
+    totals[g.winner as Player] = (totals[g.winner as Player] ?? 0) + g.points
+    return { date: format(parseISO(g.created_at), 'dd/MM'), ...Object.fromEntries(ALL_PLAYERS.map((p) => [p, totals[p]])) }
   })
 }
 
 export function buildMonthlyWinPct(games: Game[]) {
-  const map: Record<string, { ayalon: number; hines: number; total: number }> = {}
+  const map: Record<string, Record<Player, number> & { total: number }> = {}
   for (const g of games) {
     const key = format(parseISO(g.created_at), 'MM/yy')
-    if (!map[key]) map[key] = { ayalon: 0, hines: 0, total: 0 }
+    if (!map[key]) map[key] = { ...Object.fromEntries(ALL_PLAYERS.map((p) => [p, 0])), total: 0 } as Record<Player, number> & { total: number }
     map[key].total++
-    if (g.winner === 'אייל') map[key].ayalon++
-    else map[key].hines++
+    const w = g.winner as Player
+    if (w in map[key]) (map[key] as Record<string, number>)[w]++
   }
   return Object.entries(map)
     .sort(([a], [b]) => a.localeCompare(b))
     .map(([month, v]) => ({
       month,
-      ayalon: Math.round((v.ayalon / v.total) * 100),
-      hines: Math.round((v.hines / v.total) * 100),
+      ...Object.fromEntries(ALL_PLAYERS.map((p) => [p, Math.round(((v as Record<string, number>)[p] / v.total) * 100)])),
     }))
 }
 
@@ -150,9 +137,7 @@ export function buildCalendarData(games: Game[], year: number, month: number) {
   const days = eachDayOfInterval({ start, end })
   return days.map((day) => {
     const key = format(day, 'yyyy-MM-dd')
-    const dayGames = games.filter(
-      (g) => format(parseISO(g.created_at), 'yyyy-MM-dd') === key,
-    )
+    const dayGames = games.filter((g) => format(parseISO(g.created_at), 'yyyy-MM-dd') === key)
     return { date: day, games: dayGames }
   })
 }

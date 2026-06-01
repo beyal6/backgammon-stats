@@ -1,4 +1,6 @@
-export type Player = 'אייל' | 'הינס'
+export type Player = 'אייל' | 'הינס' | 'עידן' | 'נועה' | 'יובל'
+
+export const ALL_PLAYERS: Player[] = ['אייל', 'הינס', 'עידן', 'נועה', 'יובל']
 
 export type Points = 1 | 2 | 3 | 4
 
@@ -42,9 +44,7 @@ export interface PlayerStats {
 }
 
 export interface StatsResult {
-  ayalon: PlayerStats
-  hines: PlayerStats
-  pointDiff: number
+  players: Record<Player, PlayerStats>
   pointLeader: Player | null
   currentStreak: { player: Player; count: number } | null
   bestStreak: { player: Player; count: number }

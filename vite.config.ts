@@ -10,8 +10,8 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.svg', 'apple-touch-icon.png'],
       manifest: {
-        name: 'שש בש סטטיסטיקות',
-        short_name: 'שש בש',
+        name: 'השש בש של הברווזים',
+        short_name: 'הברווזים',
         description: 'מעקב סטטיסטיקות שש בש - אייל והינס',
         theme_color: '#1e1b4b',
         background_color: '#0f0e1a',

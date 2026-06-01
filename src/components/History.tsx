@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react'
 import type { Game, Player, Points } from '../types'
-import { POINT_LABELS } from '../types'
+import { POINT_LABELS, ALL_PLAYERS } from '../types'
 import { format, parseISO } from 'date-fns'
 import { he } from 'date-fns/locale'
 
@@ -12,6 +12,7 @@ interface Props {
 export function History({ games, onDelete }: Props) {
   const [search, setSearch] = useState('')
   const [filterPlayer, setFilterPlayer] = useState<Player | 'all'>('all')
+
   const [filterType, setFilterType] = useState<Points | 'all'>('all')
   const [showAll, setShowAll] = useState(false)
   const [confirmId, setConfirmId] = useState<string | null>(null)
@@ -49,10 +50,10 @@ export function History({ games, onDelete }: Props) {
           className="bg-surface-900 text-white rounded-xl px-4 py-2.5 text-sm placeholder-slate-600 w-full"
         />
         <div className="flex gap-2 flex-wrap">
-          {(['all', 'אייל', 'הינס'] as const).map((p) => (
+          {(['all', ...ALL_PLAYERS] as const).map((p) => (
             <button
               key={p}
-              onClick={() => setFilterPlayer(p)}
+              onClick={() => setFilterPlayer(p as Player | 'all')}
               className={`px-3 py-1.5 rounded-full text-sm transition-colors ${
                 filterPlayer === p ? 'bg-indigo-600 text-white' : 'bg-surface-900 text-slate-400 hover:text-white'
               }`}

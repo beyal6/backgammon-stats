@@ -14,7 +14,7 @@ export default function App() {
   const [filter, setFilter] = useState<FilterState>({ range: 'all' })
 
   const pageTitle: Record<Tab, string> = {
-    dashboard: '🎲 שש בש',
+    dashboard: '🎲 השש בש של הברווזים',
     add: 'הוספת משחקון',
     calendar: 'לוח שנה',
     history: 'היסטוריה',
