@@ -27,7 +27,7 @@ export default function App() {
       <header className="sticky top-0 z-40 bg-surface-900/95 backdrop-blur border-b border-white/5 px-4 py-3 flex items-center justify-between">
         <h1 className={`font-bold text-white flex items-center gap-2 ${tab === 'dashboard' ? 'text-xl' : 'text-lg'}`}>
           {tab === 'dashboard'
-            ? <><span>🎲</span><img src="/backgammon-stats/duck.svg" alt="duck" className="h-8 w-8 inline-block" /><span>השש בש של הברווזים</span></>
+            ? <><span>🎲</span><img src="/backgammon-stats/duck.png" alt="duck" className="h-8 w-8 inline-block drop-shadow-sm" /><span>השש בש של הברווזים</span></>
             : pageTitle[tab]
           }
         </h1>
