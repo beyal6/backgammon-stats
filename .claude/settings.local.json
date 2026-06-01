@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm create *)",
+      "PowerShell(Get-ChildItem \"C:\\\\Program Files\\\\nodejs\" -ErrorAction SilentlyContinue; Get-ChildItem \"$env:APPDATA\\\\npm\" -ErrorAction SilentlyContinue; Get-ChildItem \"$env:LOCALAPPDATA\\\\Programs\\\\nodejs\" -ErrorAction SilentlyContinue; Test-Path \"C:\\\\Program Files\\\\nodejs\\\\npm.cmd\")",
+      "PowerShell($env:PATH)",
+      "mcp__Claude_in_Chrome__browser_batch",
+      "mcp__d62ef1cb-af22-483d-9ec3-f118f6d2f136__list_projects",
+      "mcp__d62ef1cb-af22-483d-9ec3-f118f6d2f136__list_tables",
+      "mcp__d62ef1cb-af22-483d-9ec3-f118f6d2f136__get_project_url"
+    ]
+  }
+}
