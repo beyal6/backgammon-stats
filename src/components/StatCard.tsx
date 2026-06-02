@@ -2,7 +2,7 @@ interface StatCardProps {
   label: string
   value: string | number
   sub?: string
-  color?: 'indigo' | 'emerald' | 'amber'
+  color?: 'indigo' | 'emerald' | 'amber' | 'slate'
 }
 
 export function StatCard({ label, value, sub, color = 'indigo' }: StatCardProps) {
@@ -10,12 +10,14 @@ export function StatCard({ label, value, sub, color = 'indigo' }: StatCardProps)
     indigo: 'ring-indigo-500/30',
     emerald: 'ring-emerald-500/30',
     amber: 'ring-amber-500/30',
+    slate: 'ring-slate-500/30',
   }[color]
 
   const text = {
     indigo: 'text-indigo-400',
     emerald: 'text-emerald-400',
     amber: 'text-amber-400',
+    slate: 'text-slate-300',
   }[color]
 
   return (
